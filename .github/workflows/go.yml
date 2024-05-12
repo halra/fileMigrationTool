@@ -20,14 +20,28 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.20'
-
-    - name: Build
-      run: go build -v ./...
-
+        
     - name: Test
       run: go test -v ./...
+
+    - name: Build
+      run: GOOS=linux GOARCH=amd64 go build -v ./...
+      
+    - name: Rename file 
+      run: mv fileMigrationTool fileMigrationTool_linux_amd64
+
+    - name: Build
+      run: GOOS=darwin GOARCH=arm64 go build -v ./...
+      
+    - name: Rename file 
+      run: mv fileMigrationTool fileMigrationTool_osx_arm64
+
       
     - uses: actions/upload-artifact@v4
       with:
-        name: fileMigrationTool
-        path: fileMigrationTool
+        name: fileMigrationTool_linux_amd64
+        path: fileMigrationTool_linux_amd64
+    - uses: actions/upload-artifact@v4
+      with:
+        name: fileMigrationTool_osx_arm64
+        path: fileMigrationTool_osx_arm64
